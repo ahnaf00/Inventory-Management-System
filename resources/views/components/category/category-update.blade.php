@@ -25,3 +25,54 @@
     </div>
 </div>
 
+<script>
+
+    async function FillUpdatedForm(id)
+    {
+        document.getElementById('updateID').value = id
+        showLoader()
+        let response = await axios.post('/category-by-id', {
+            id:id
+        })
+        hideLoader()
+
+        document.getElementById('categoryNameUpdate').value = response.data['name'];
+
+
+    }
+
+    async function Update()
+    {
+        let categoryName    = document.getElementById('categoryNameUpdate').value
+        let updateID        = document.getElementById('updateID').value
+
+        if(categoryName.length == 0)
+        {
+            errorToast("Category required !")
+        }
+        else
+        {
+            document.getElementById('update-modal-close').click()
+            showLoader()
+            let response = await axios.post('/update-category', {
+                name:categoryName,
+                id:updateID
+            })
+            hideLoader()
+
+            if(response.status == 200 && response.data == 1)
+            {
+                document.getElementById('update-form').reset()
+                successToast("Category updated successfully")
+                await getList()
+            }
+            else
+            {
+                errorToast("Something went wrong")
+            }
+
+        }
+
+    }
+</script>
+

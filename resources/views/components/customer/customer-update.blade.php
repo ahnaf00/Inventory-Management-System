@@ -32,3 +32,62 @@
     </div>
 </div>
 
+<script>
+    async function FilledUpdatedData(id)
+    {
+        document.getElementById('updateID').value = id
+
+        showLoader()
+        let response = await axios.post('/customer-by-id', {id:id})
+        hideLoader()
+
+        document.getElementById('customerNameUpdate').value     = response.data['name']
+        document.getElementById('customerEmailUpdate').value    = response.data['email']
+        document.getElementById('customerMobileUpdate').value   = response.data['mobile']
+    }
+
+    async function Update()
+    {
+        let updateID    = document.getElementById('updateID').value
+        let name        = document.getElementById('customerNameUpdate').value
+        let email       = document.getElementById('customerEmailUpdate').value
+        let mobile      = document.getElementById('customerMobileUpdate').value
+
+
+        if(name.length == 0)
+        {
+            errorToast("Name is required")
+        }
+        else if(email.length == 0)
+        {
+            errorToast("Email is required")
+        }
+        else if(mobile.length == 0)
+        {
+            errorToast("Mobile number is required")
+        }
+        else
+        {
+            document.getElementById('update-modal-close').click()
+            showLoader()
+            let response = await axios.post('/update-customer', {
+                name:name,
+                email:email,
+                mobile:mobile,
+                id:updateID
+            })
+            hideLoader()
+
+            if(response.status == 200 && response.data == 1)
+            {
+                successToast("Update successful")
+                document.getElementById("update-form").reset()
+                await getList()
+            }
+            else
+            {
+                errorToast("Something went wrong")
+            }
+        }
+    }
+</script>
