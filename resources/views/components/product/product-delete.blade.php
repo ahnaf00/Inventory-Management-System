@@ -17,3 +17,28 @@
         </div>
     </div>
 </div>
+
+<script>
+    async function itemDelete()
+    {
+        let deletID = document.getElementById('deleteID').value;
+        let filePath = document.getElementById('deleteFilePath').value;
+        document.getElementById('delete-modal-close').click()
+
+        showLoader()
+        let response = await axios.post('/delete-product', {
+            id:deletID,
+            file_path:filePath
+        })
+        hideLoader()
+
+        if(response.status == 200 && response.data==1)
+        {
+            successToast("Product delete successful");
+            await getList()
+        }
+        else{
+            errorToast("Something went wrong");
+        }
+    }
+</script>
