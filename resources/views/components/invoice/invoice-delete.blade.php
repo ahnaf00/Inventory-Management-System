@@ -15,3 +15,27 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    async function itemDelete()
+    {
+        let id = document.getElementById('deleteID').value;
+        document.getElementById('delete-modal-close').click()
+
+        showLoader()
+        let response = await axios.post('/invoice-delete', {inv_id:id});
+        hideLoader()
+
+        if(response.status == 200 && response.data == 1 )
+        {
+            successToast("Invoice deleted successfully")
+            await getList()
+
+        }
+        else
+        {
+            errorToast("Something went wrong")
+        }
+    }
+</script>
