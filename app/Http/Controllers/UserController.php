@@ -38,11 +38,6 @@ class UserController extends Controller
         return view('pages.auth.reset-pass-page');
     }
 
-    function DasboardPage():View
-    {
-        return view('pages.dashboard.dashboard-page');
-    }
-
     function UserProfilePage():View
     {
         return view('pages.dashboard.profile-page');

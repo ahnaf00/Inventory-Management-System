@@ -31,3 +31,47 @@
 </div>
 
 
+<script>
+    getList()
+    async function getList()
+    {
+        showLoader()
+        let response = await axios.get('/list-category')
+        hideLoader()
+
+        let tableData   = $('#tableData')
+        let tableList   = $('#tableList')
+
+        tableData.DataTable().destroy();
+        tableList.empty();
+
+        response.data.forEach((item, index)=>{
+            let row = `<tr>
+                    <td>${index+1}</td>
+                    <td>${item['name']}</td>
+                    <td>
+                        <button data-id="${item['id']}" class="btn btn-outline-success editBtn">Edit</button>
+                        <button data-id="${item['id']}" class="btn btn-outline-danger deleteBtn">Delete</button>
+                    </td>
+                </tr>`
+                tableList.append(row);
+        });
+
+        $('.editBtn').on('click', async function(){
+            let id = $(this).data('id');
+            await FillUpdatedForm(id)
+            $("#update-modal").modal('show')
+        })
+
+        $('.deleteBtn').on('click', function(){
+            let id = $(this).data('id');
+            $("#delete-modal").modal("show")
+            $("#deleteID").val(id)
+        })
+
+        tableData.DataTable({
+            order:[[0, 'desc']],
+            lengthMenu:[5, 10, 15, 20]
+        })
+    }
+</script>

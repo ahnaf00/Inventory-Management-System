@@ -28,3 +28,54 @@
     </div>
 </div>
 
+<script>
+async function Save()
+{
+    let name    = document.getElementById('customerName').value
+    let email   = document.getElementById('customerEmail').value
+    let mobile  = document.getElementById('customerMobile').value
+
+    if(name.length == 0)
+    {
+        errorToast("Name required")
+    }
+    else if(email.length == 0)
+    {
+        errorToast("Email required")
+
+    }
+    else if(mobile.length == 0)
+    {
+        errorToast("Mobile number required")
+
+    }
+    else
+    {
+
+        document.getElementById('modal-close').click();
+
+        showLoader()
+        let response = await axios.post('/create-customer', {
+            name:name,
+            email:email,
+            mobile:mobile
+        })
+        hideLoader()
+
+        if(response.status == 201)
+        {
+            successToast("Customer created successfully");
+            document.getElementById('save-form').reset()
+            await getList()
+        }
+        else
+        {
+            errorToast("Customer creation failed")
+        }
+    }
+
+
+
+}
+
+</script>

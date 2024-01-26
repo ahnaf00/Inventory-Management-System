@@ -25,3 +25,35 @@
 </div>
 
 
+<script>
+    async function Save()
+    {
+        let categoryName = document.getElementById('categoryName').value
+
+        if(categoryName.length == 0)
+        {
+            errorToast("Category name required!")
+        }
+        else
+        {
+            document.getElementById('modal-close').click()
+
+            showLoader()
+            let response = await axios.post('/create-category', {
+                name:categoryName
+            })
+            hideLoader()
+
+            if(response.status == 201)
+            {
+                successToast("Category created successfully");
+                document.getElementById('save-form').reset()
+                await getList()
+            }
+            else
+            {
+                errorToast("Request failed")
+            }
+        }
+    }
+</script>

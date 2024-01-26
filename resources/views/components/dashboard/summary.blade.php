@@ -160,3 +160,23 @@
 
     </div>
 </div>
+
+
+<script>
+    getSummer()
+    async function getSummer()
+    {
+        showLoader()
+        let response = await axios.get('/summery');
+        hideLoader()
+
+        document.getElementById('product').innerText=response.data['product']
+        document.getElementById('category').innerText=response.data['category']
+        document.getElementById('customer').innerText=response.data['customer']
+        document.getElementById('invoice').innerText=response.data['invoice']
+        document.getElementById('total').innerText=response.data['total']
+        document.getElementById('vat').innerText=response.data['vat']
+        document.getElementById('payable').innerText=response.data['payable']
+
+    }
+</script>
